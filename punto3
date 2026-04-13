@@ -1,0 +1,68 @@
+import java.util.Arrays;
+
+class Arista implements Comparable<Arista> {
+    int u, v, peso;
+
+    Arista(int u, int v, int peso) {
+        this.u = u;
+        this.v = v;
+        this.peso = peso;
+    }
+
+    public int compareTo(Arista o) {
+        return this.peso - o.peso;
+    }
+}
+
+public class KruskalPunto3 {
+
+    static int[] padre;
+
+    static int find(int x) {
+        if (padre[x] == x)
+            return x;
+        return padre[x] = find(padre[x]);
+    }
+
+    static void union(int a, int b) {
+        padre[find(a)] = find(b);
+    }
+
+    public static void main(String[] args) {
+
+        int V = 6;
+
+        Arista[] aristas = {
+            new Arista(0,1,6), new Arista(0,2,1), new Arista(0,3,5),
+            new Arista(1,2,2), new Arista(1,4,5),
+            new Arista(2,3,2), new Arista(2,4,6),
+            new Arista(3,5,4),
+            new Arista(4,5,3)
+        };
+
+        Arrays.sort(aristas);
+
+        padre = new int[V];
+        for (int i = 0; i < V; i++) {
+            padre[i] = i;
+        }
+
+        int costoTotal = 0;
+        int descartadas = 0;
+
+        System.out.println("Aristas seleccionadas:");
+
+        for (Arista a : aristas) {
+            if (find(a.u) != find(a.v)) {
+                union(a.u, a.v);
+                System.out.println(a.u + " - " + a.v + " : " + a.peso);
+                costoTotal += a.peso;
+            } else {
+                descartadas++;
+            }
+        }
+
+        System.out.println("Costo total del MST: " + costoTotal);
+        System.out.println("Aristas descartadas por ciclo: " + descartadas);
+    }
+}
