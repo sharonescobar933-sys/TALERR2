@@ -1,1 +1,57 @@
+public class PrimPunto2 {
 
+    public static void prim(int[][] grafo, int inicio) {
+
+        int V = grafo.length;
+        boolean[] visitado = new boolean[V];
+        visitado[inicio] = true;
+
+        int costoTotal = 0;
+
+        System.out.println("\nIniciando desde nodo " + inicio);
+        System.out.println("Aristas seleccionadas:");
+
+        for (int i = 0; i < V - 1; i++) {
+
+            int min = 999;
+            int x = -1, y = -1;
+
+            for (int j = 0; j < V; j++) {
+                if (visitado[j]) {
+                    for (int k = 0; k < V; k++) {
+                        if (!visitado[k] && grafo[j][k] != 0) {
+                            if (grafo[j][k] < min) {
+                                min = grafo[j][k];
+                                x = j;
+                                y = k;
+                            }
+                        }
+                    }
+                }
+            }
+
+            System.out.println(x + " - " + y + " : " + grafo[x][y]);
+
+            costoTotal += grafo[x][y];
+            visitado[y] = true;
+        }
+
+        System.out.println("Costo total del MST: " + costoTotal);
+    }
+
+    public static void main(String[] args) {
+
+        int[][] grafo = {
+            {0,6,1,5,0,0},
+            {6,0,2,0,5,0},
+            {1,2,0,2,6,0},
+            {5,0,2,0,0,4},
+            {0,5,6,0,0,3},
+            {0,0,0,4,3,0}
+        };
+
+        // Pruebas pedidas en el taller
+        prim(grafo, 0);
+        prim(grafo, 2);
+    }
+}
