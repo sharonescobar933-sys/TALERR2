@@ -1,0 +1,74 @@
+import java.util.*;
+
+public class BFSPunto4 {
+
+    public static void main(String[] args) {
+
+        int V = 6;
+
+        // Lista de adyacencia
+        List<Integer>[] grafo = new ArrayList[V];
+        for (int i = 0; i < V; i++) {
+            grafo[i] = new ArrayList<>();
+        }
+
+        // Agregar aristas
+        grafo[0].add(1);
+        grafo[0].add(2);
+        grafo[1].add(0);
+        grafo[1].add(3);
+        grafo[2].add(0);
+        grafo[2].add(3);
+        grafo[3].add(1);
+        grafo[3].add(2);
+        grafo[3].add(4);
+        grafo[4].add(3);
+        grafo[4].add(5);
+        grafo[5].add(4);
+
+        int origen = 0;
+        int destino = 5;
+
+        bfs(grafo, origen, destino, V);
+    }
+
+    public static void bfs(List<Integer>[] grafo, int origen, int destino, int V) {
+
+        boolean[] visitado = new boolean[V];
+        int[] padre = new int[V];
+
+        Queue<Integer> cola = new LinkedList<>();
+
+        cola.add(origen);
+        visitado[origen] = true;
+        padre[origen] = -1;
+
+        while (!cola.isEmpty()) {
+            int actual = cola.poll();
+
+            for (int vecino : grafo[actual]) {
+                if (!visitado[vecino]) {
+                    visitado[vecino] = true;
+                    padre[vecino] = actual;
+                    cola.add(vecino);
+                }
+            }
+        }
+
+        // Reconstruir camino
+        List<Integer> camino = new ArrayList<>();
+        int actual = destino;
+
+        while (actual != -1) {
+            camino.add(actual);
+            actual = padre[actual];
+        }
+
+        Collections.reverse(camino);
+
+        System.out.println("Camino más corto:");
+        for (int nodo : camino) {
+            System.out.print(nodo + " ");
+        }
+    }
+}
