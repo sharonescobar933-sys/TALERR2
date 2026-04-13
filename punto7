@@ -1,0 +1,50 @@
+public class WarshallPunto7 {
+
+    public static void main(String[] args) {
+
+        int V = 4;
+
+        int[][] grafo = {
+            {0,1,0,0},
+            {0,0,1,0},
+            {1,0,0,1},
+            {0,0,0,0}
+        };
+
+        // Algoritmo de Warshall
+        for (int k = 0; k < V; k++) {
+            for (int i = 0; i < V; i++) {
+                for (int j = 0; j < V; j++) {
+                    if (grafo[i][j] == 1 || (grafo[i][k] == 1 && grafo[k][j] == 1)) {
+                        grafo[i][j] = 1;
+                    }
+                }
+            }
+        }
+
+        // Mostrar matriz de alcanzabilidad
+        System.out.println("Matriz de alcanzabilidad:");
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                System.out.print(grafo[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        // Verificar si es fuertemente conexo
+        boolean conexo = true;
+
+        for (int i = 0; i < V; i++) {
+            for (int j = 0; j < V; j++) {
+                if (grafo[i][j] == 0) {
+                    conexo = false;
+                }
+            }
+        }
+
+        if (conexo)
+            System.out.println("El grafo es fuertemente conexo");
+        else
+            System.out.println("El grafo NO es fuertemente conexo");
+    }
+}
